@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kaptcha</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<p class="thumb">
+    <img th:each="image : ${name}" th:src="${image.path}" th:width="${image.width}" th:height="${image.height}"
+         th:alt="Дедлайн">
+</p>
+<div id="app">
+    <p><label>Enter Kaptcha <input type="text" v-model="kaptcha">
+        <button v-on:click="sendKaptcha">Send</button>
+    </label></p>
+</div>
+<script>
+    var ws = new WebSocket(`ws://${window.location.host}/ws`);
+    var app = new Vue({
+        el: '#app',
+        data:{
+          kaptcha: ''
+        },
+        methods:{
+            sendKaptcha: async function(){
+                ws.send(this.kaptcha);
+
+
+                document.location.reload(true)
+            }
+        },
+
+    })
+</script>
+</body>
+</html>

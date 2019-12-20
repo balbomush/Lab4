@@ -40,9 +40,12 @@ public class Controller {
 
     @GetMapping("/kap")
     public String kap(Model model) {
+        if(queue.isEmpty())
+            collectKap();
         Image img = queue.poll();
         model.addAttribute("name", img);
-
+        if(queue.isEmpty())
+            collectKap();
         return "kap";
     }
 
